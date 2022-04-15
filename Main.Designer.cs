@@ -62,7 +62,9 @@
             this.StatisticsList.TabIndex = 0;
             this.StatisticsList.UseCompatibleStateImageBehavior = false;
             this.StatisticsList.View = System.Windows.Forms.View.Details;
-            
+            this.MinimumSize = new System.Drawing.Size(250, 250);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+
             // 
             // columnPid
             // 
@@ -73,7 +75,7 @@
             // 
             this.columnCount.Text = "Count";
             this.columnCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnCount.Width = 181;
+            this.columnCount.Width = 120;
             // 
             // statsTimer
             // 

@@ -94,13 +94,16 @@
 
             this.WindowState = System.Windows.Forms.FormWindowState.Normal;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.ClientSize = new System.Drawing.Size(284, 261);
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(960, 960);
+            this.MinimumSize = new System.Drawing.Size(200, 200);
             this.Text = name;
             this.Name = name;
             Set_Params();
-            this.Resize += new System.EventHandler(this.RendererContainerForm_Resize);
+            //this.Resize += new System.EventHandler(this.RendererContainerForm_Resize);
+            this.ResizeBegin += new System.EventHandler(this.RendererContainerForm_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.RendererContainerForm_ResizeEnd);
             this.ResumeLayout(false);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RendererContainerForm_Closing);
         }
