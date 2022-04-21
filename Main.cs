@@ -34,7 +34,7 @@ namespace GraphSample
         {
             InitializeComponent();
 
-            StatisticsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
+            //StatisticsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
             CreateListItems(); 
 
             try
@@ -67,6 +67,8 @@ namespace GraphSample
                 var item = StatisticsList.Items.Add($"0x{(ushort)pid:X4}");
                 item.SubItems.Add("0");
             }
+
+
         }
 
         private void CreateWndRender()
@@ -144,6 +146,9 @@ namespace GraphSample
             }
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Dll.SetIp(textBox_IP.Text, UInt16.Parse(textBox_Port.Text));
+        }
     }
 }
