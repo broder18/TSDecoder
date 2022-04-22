@@ -166,5 +166,29 @@ namespace GraphSample.Properties {
                 this["WinLocation_x0089"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("239.255.0.1")]
+        public string IP_address {
+            get {
+                return ((string)(this["IP_address"]));
+            }
+            set {
+                this["IP_address"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1234")]
+        public ushort Port_address {
+            get {
+                return ((ushort)(this["Port_address"]));
+            }
+            set {
+                this["Port_address"] = value;
+            }
+        }
     }
 }

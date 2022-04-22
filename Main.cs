@@ -7,10 +7,7 @@ namespace GraphSample
 {
 
     public partial class MainForm : Form
-    {
-        private const string McastIp = "239.255.0.1";
-        private const ushort McsdtPort = 1234;
-        
+    {     
         private enum Pids
         {
             Pid0 = 0x85,
@@ -26,6 +23,7 @@ namespace GraphSample
         private ulong _prevcount3;
         private ulong _prevcount4;
         private RendererContainerForm[] _renderers;
+        private BPSAverager bps_x85;
         
        
         
@@ -33,14 +31,13 @@ namespace GraphSample
         public MainForm()
         {
             InitializeComponent();
-
-            //StatisticsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-            CreateListItems(); 
+            CreateListItems();
+            bps_x85 = new BPSAverager();
 
             try
             {
                 CreateWndRender();
-                Dll.OpenRefact(McastIp, McsdtPort, ParseUshort(), ParseIntPtr());
+                Dll.OpenRefact(Settings.Default.IP_address, Settings.Default.Port_address, ParseUshort(), ParseIntPtr());
                 statsTimer.Enabled = true;
                 
                 
@@ -57,7 +54,6 @@ namespace GraphSample
             Dll.Close();
             CloseWndRender();
             SavePosition();
-            
         }
 
         private void CreateListItems()
@@ -67,8 +63,6 @@ namespace GraphSample
                 var item = StatisticsList.Items.Add($"0x{(ushort)pid:X4}");
                 item.SubItems.Add("0");
             }
-
-
         }
 
         private void CreateWndRender()
@@ -124,13 +118,15 @@ namespace GraphSample
                 Check_Stats(stats);
             }
             Marshal.FreeCoTaskMem(pstats);
-            
-            
         }
 
         private void Check_Stats( Dll.PidStatistics stats)
         {
             WriteStats(ref _prevcount0, 0, ref stats.Pids[(int)Pids.Pid0]);
+            //StatisticsList.Items[0].SubItems[2].Text = bps_x85.GetBps().ToString();
+            bps_x85.Add(stats.Pids[(int)Pids.Pid0]);
+            //StatisticsList.Items[0].SubItems[2].Text = bps_x85.GetBps();
+            System.Console.WriteLine(bps_x85.GetBps());
             WriteStats(ref _prevcount1, 1, ref stats.Pids[(int)Pids.Pid1]);
             WriteStats(ref _prevcount2, 2, ref stats.Pids[(int)Pids.Pid2]);
             WriteStats(ref _prevcount3, 3, ref stats.Pids[(int)Pids.Pid3]);
@@ -141,13 +137,17 @@ namespace GraphSample
         {
             if (view_count != read_count)
             {
+                
                 view_count = read_count;
                 StatisticsList.Items[id].SubItems[1].Text = view_count.ToString();
+                
+                //StatisticsList.Items[id].SubItems[1].Text = bps_x85.GetBps();
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonConnect_Click(object sender, EventArgs e)
         {
+            SaveAddress();
             Dll.SetIp(textBox_IP.Text, UInt16.Parse(textBox_Port.Text));
         }
     }

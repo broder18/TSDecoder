@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BPSAverager.cs" />
     <Compile Include="Dll.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>

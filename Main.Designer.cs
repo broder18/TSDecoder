@@ -24,6 +24,18 @@
         {
             Properties.Settings.Default.WindowSize = this.Size;
             Properties.Settings.Default.WindowLocation = this.Location;
+            SaveSettings();
+        }
+
+        private void SaveAddress()
+        {
+            Properties.Settings.Default.IP_address = textBox_IP.Text;
+            Properties.Settings.Default.Port_address = System.UInt16.Parse(textBox_Port.Text);
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
             Properties.Settings.Default.Save();
         }
 
@@ -45,7 +57,7 @@
             this.textBox_IP = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_Port = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonConnect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // StatisticsList
@@ -106,7 +118,7 @@
             this.textBox_IP.Name = "textBox_IP";
             this.textBox_IP.Size = new System.Drawing.Size(138, 20);
             this.textBox_IP.TabIndex = 2;
-            this.textBox_IP.Text = "239.255.1.1";
+            this.textBox_IP.Text = Properties.Settings.Default.IP_address;
             // 
             // label2
             // 
@@ -124,25 +136,25 @@
             this.textBox_Port.Name = "textBox_Port";
             this.textBox_Port.Size = new System.Drawing.Size(138, 20);
             this.textBox_Port.TabIndex = 4;
-            this.textBox_Port.Text = "1234";
+            this.textBox_Port.Text = Properties.Settings.Default.Port_address.ToString();
             // 
-            // button1
+            // buttonConnect
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(134, 62);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(138, 27);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonConnect.Location = new System.Drawing.Point(134, 62);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(138, 27);
+            this.buttonConnect.TabIndex = 5;
+            this.buttonConnect.Text = "Connect";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.textBox_Port);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox_IP);
@@ -171,7 +183,7 @@
         private System.Windows.Forms.TextBox textBox_IP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_Port;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonConnect;
     }
 }
 
