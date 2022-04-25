@@ -23,7 +23,7 @@ namespace GraphSample
         private ulong _prevcount3;
         private ulong _prevcount4;
         private RendererContainerForm[] _renderers;
-        private BPSAverager bps_x85;
+        private BPSAverager[] bps;
         
        
         
@@ -32,11 +32,11 @@ namespace GraphSample
         {
             InitializeComponent();
             CreateListItems();
-            bps_x85 = new BPSAverager();
 
             try
             {
                 CreateWndRender();
+                CreateBPSStats();
                 Dll.OpenRefact(Settings.Default.IP_address, Settings.Default.Port_address, ParseUshort(), ParseIntPtr());
                 statsTimer.Enabled = true;
                 
@@ -62,6 +62,7 @@ namespace GraphSample
             {
                 var item = StatisticsList.Items.Add($"0x{(ushort)pid:X4}");
                 item.SubItems.Add("0");
+                item.SubItems.Add("0.0000");
             }
         }
 
@@ -84,6 +85,15 @@ namespace GraphSample
                 render.Close(); 
             }
             _renderers = null;
+        }
+
+        private void CreateBPSStats()
+        {
+            bps = new BPSAverager[_renderers.Length];
+            for(int id = 0; id < _renderers.Length; id++)
+            {
+                bps[id] = new BPSAverager();
+            }
         }
 
         private IntPtr[] ParseIntPtr()
@@ -123,25 +133,31 @@ namespace GraphSample
         private void Check_Stats( Dll.PidStatistics stats)
         {
             WriteStats(ref _prevcount0, 0, ref stats.Pids[(int)Pids.Pid0]);
-            //StatisticsList.Items[0].SubItems[2].Text = bps_x85.GetBps().ToString();
-            bps_x85.Add(stats.Pids[(int)Pids.Pid0]);
-            //StatisticsList.Items[0].SubItems[2].Text = bps_x85.GetBps();
-            System.Console.WriteLine(bps_x85.GetBps());
             WriteStats(ref _prevcount1, 1, ref stats.Pids[(int)Pids.Pid1]);
             WriteStats(ref _prevcount2, 2, ref stats.Pids[(int)Pids.Pid2]);
             WriteStats(ref _prevcount3, 3, ref stats.Pids[(int)Pids.Pid3]);
             WriteStats(ref _prevcount4, 4, ref stats.Pids[(int)Pids.Pid4]);
         }
 
-        private void WriteStats( ref ulong view_count, int id, ref ulong read_count)
+        private void WriteStats(ref ulong view_count, int id, ref ulong read_count)
+        {
+            WriteBitrait(id, ref read_count);
+            WriteCount(ref view_count, id, ref read_count);
+        }
+
+        private void WriteBitrait(int id, ref ulong read_count)
+        {
+            bps[id].Add(read_count * 188);
+            StatisticsList.Items[id].SubItems[2].Text = bps[id].GetBps();
+        }
+
+        private void WriteCount(ref ulong view_count, int id, ref ulong read_count)
         {
             if (view_count != read_count)
             {
-                
+                bps[id].Add(read_count);
                 view_count = read_count;
-                StatisticsList.Items[id].SubItems[1].Text = view_count.ToString();
-                
-                //StatisticsList.Items[id].SubItems[1].Text = bps_x85.GetBps();
+                StatisticsList.Items[id].SubItems[1].Text = view_count.ToString(); 
             }
         }
 

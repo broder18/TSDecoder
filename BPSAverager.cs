@@ -35,11 +35,11 @@ namespace GraphSample
         {
             ulong lenBytes = aBytes - PrevBytes;
             long tickCount = DateTime.Now.Ticks;
-            long msLen = tickCount - PrevTickCount;
+            long ticksLen =tickCount - PrevTickCount;
             SetPrevData(aBytes, tickCount);
             CheckQueueEnd();
-            SetTotal(msLen, lenBytes);
-            SetSampleData(msLen, lenBytes);
+            SetTotal(ticksLen, lenBytes);
+            SetSampleData(ticksLen, lenBytes);
             
         }
 
@@ -47,6 +47,7 @@ namespace GraphSample
         {
             PrevBytes = aBytes;
             PrevTickCount = tickCount;
+            
         }
 
         private void CheckQueueEnd()
@@ -56,19 +57,22 @@ namespace GraphSample
                 AVG_STR sample = Samples.Dequeue();
                 TotalBytes -= sample.Bytes;
                 TotalTime -= sample.Millisecs;
+                
             }
+            
         }
 
-        private void SetTotal(long msLen, ulong lenBytes)
+        private void SetTotal(long ticksLen, ulong lenBytes)
         {
-            TotalTime += msLen;
+            TotalTime += ticksLen;
             TotalBytes += lenBytes;
         }
 
-        private void SetSampleData(long msLen, ulong lenBytes)
+        private void SetSampleData(long ticksLen, ulong lenBytes)
         {
-            AVG_STR sample = new AVG_STR(lenBytes, msLen);
+            AVG_STR sample = new AVG_STR(lenBytes, ticksLen);
             Samples.Enqueue(sample);
+            System.Console.WriteLine("Count: {0}; TotalTime: ", Samples.Count);
         }
 
         private void Reset()
@@ -86,20 +90,22 @@ namespace GraphSample
             return true;
         }
 
+        private double ParseToMBPs()
+        {
+            double bps;
+            TimeSpan elapsed = new TimeSpan(TotalTime);
+            bps = (double)TotalBytes * elapsed.TotalSeconds * 8 / 1000 / 1000;
+            return bps;
+        }
+
         public string GetBps()
         {
-            System.Console.WriteLine("NumSamples:{0}; TotalTime:{1}; TotalBytes{2}", Samples.Count, TotalTime, TotalBytes);
-            double bps;
             if (!CheckStatus())
             {
-                
                 return "0";
             }
 
-            TimeSpan elapsed = new TimeSpan(TotalTime);
-            bps = (double)TotalBytes * 8 / elapsed.TotalSeconds / 1000;
-            
-            return bps.ToString("#.####");
+            return ParseToMBPs().ToString("#.####");
         }
     }
 }
