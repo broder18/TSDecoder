@@ -6,48 +6,55 @@ namespace GraphSample
     class AVG_STR
     {
         public ulong Bytes { get; set; }
-        public long Millisecs { get; set; }
+        public long Ticks { get; set; }
 
-        public AVG_STR(ulong count, long ms)
+        public AVG_STR(ulong count, long ticks)
         {
             this.Bytes = count;
-            this.Millisecs = ms;
+            this.Ticks = ticks;
         }
     }
 
     class BPSAverager
     {
-        private const int Capacity = 5;
+        private const int Capacity = 6;
         Queue<AVG_STR> Samples;
         private ulong TotalBytes;
         private long TotalTime;
         private long PrevTickCount;
         private ulong PrevBytes;
+        private bool start;
 
         public BPSAverager()
         {
-  
             Samples = new Queue<AVG_STR>();
-            Reset();
+            start = false;
         }
 
         public void Add(ulong aBytes)
         {
+            if (!CheckStart())
+            {
+                SetPrevData(aBytes, DateTime.Now.Ticks);
+                return;
+            }
+            SetParams(aBytes);
+        }
+
+        public void SetParams(ulong aBytes)
+        {
             ulong lenBytes = aBytes - PrevBytes;
-            long tickCount = DateTime.Now.Ticks;
-            long ticksLen =tickCount - PrevTickCount;
-            SetPrevData(aBytes, tickCount);
+            long ticksLen = DateTime.Now.Ticks - PrevTickCount;
+            SetPrevData(aBytes, DateTime.Now.Ticks);
             CheckQueueEnd();
             SetTotal(ticksLen, lenBytes);
             SetSampleData(ticksLen, lenBytes);
-            
         }
 
         private void SetPrevData(ulong aBytes, long tickCount)
         {
             PrevBytes = aBytes;
             PrevTickCount = tickCount;
-            
         }
 
         private void CheckQueueEnd()
@@ -56,8 +63,7 @@ namespace GraphSample
             {
                 AVG_STR sample = Samples.Dequeue();
                 TotalBytes -= sample.Bytes;
-                TotalTime -= sample.Millisecs;
-                
+                TotalTime -= sample.Ticks; 
             }
             
         }
@@ -72,15 +78,16 @@ namespace GraphSample
         {
             AVG_STR sample = new AVG_STR(lenBytes, ticksLen);
             Samples.Enqueue(sample);
-            System.Console.WriteLine("Count: {0}; TotalTime: ", Samples.Count);
         }
 
-        private void Reset()
+        private bool CheckStart()
         {
-            TotalBytes = 0;
-            TotalTime = 0;
-            PrevTickCount = DateTime.Now.Ticks;
-            PrevBytes = 0;
+            if (!start)
+            {
+                start = true;
+                return false;
+            }   
+            return true;
         }
 
         private bool CheckStatus()
@@ -94,7 +101,7 @@ namespace GraphSample
         {
             double bps;
             TimeSpan elapsed = new TimeSpan(TotalTime);
-            bps = (double)TotalBytes * elapsed.TotalSeconds * 8 / 1000 / 1000;
+            bps = (double)TotalBytes / elapsed.TotalSeconds / 1000 / 1000 * 8;
             return bps;
         }
 

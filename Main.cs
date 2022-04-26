@@ -25,8 +25,6 @@ namespace GraphSample
         private RendererContainerForm[] _renderers;
         private BPSAverager[] bps;
         
-       
-        
 
         public MainForm()
         {
