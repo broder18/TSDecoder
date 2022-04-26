@@ -71,11 +71,11 @@
             this.StatisticsList.GridLines = true;
             this.StatisticsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.StatisticsList.HideSelection = false;
-            this.StatisticsList.Location = new System.Drawing.Point(0, 110);
+            this.StatisticsList.Location = new System.Drawing.Point(0, 180);
             this.StatisticsList.MultiSelect = false;
             this.StatisticsList.Name = "StatisticsList";
             this.StatisticsList.ShowGroups = false;
-            this.StatisticsList.Size = new System.Drawing.Size(284, 151);
+            this.StatisticsList.Size = new System.Drawing.Size(336, 153);
             this.StatisticsList.TabIndex = 0;
             this.StatisticsList.UseCompatibleStateImageBehavior = false;
             this.StatisticsList.View = System.Windows.Forms.View.Details;
@@ -93,9 +93,10 @@
             // 
             // columnBPS
             // 
-            this.columnBPS.Text = "Bitrate";
+            this.columnBPS.Text = "Bitrate, MBPS";
             this.columnBPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnBPS.Width = 100;
+            this.columnBPS.Width = 150;
+
             // 
             // statsTimer
             // 
@@ -114,11 +115,11 @@
             // 
             // textBox_IP
             // 
-            this.textBox_IP.Location = new System.Drawing.Point(134, 12);
+            this.textBox_IP.Location = new System.Drawing.Point(184, 13);
             this.textBox_IP.Name = "textBox_IP";
             this.textBox_IP.Size = new System.Drawing.Size(138, 20);
             this.textBox_IP.TabIndex = 2;
-            this.textBox_IP.Text = Properties.Settings.Default.IP_address;
+            this.textBox_IP.Text = global::GraphSample.Properties.Settings.Default.IP_address;
             // 
             // label2
             // 
@@ -132,16 +133,16 @@
             // 
             // textBox_Port
             // 
-            this.textBox_Port.Location = new System.Drawing.Point(134, 36);
+            this.textBox_Port.Location = new System.Drawing.Point(184, 37);
             this.textBox_Port.Name = "textBox_Port";
             this.textBox_Port.Size = new System.Drawing.Size(138, 20);
             this.textBox_Port.TabIndex = 4;
-            this.textBox_Port.Text = Properties.Settings.Default.Port_address.ToString();
+            this.textBox_Port.Text = "1234";
             // 
             // buttonConnect
             // 
             this.buttonConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonConnect.Location = new System.Drawing.Point(134, 62);
+            this.buttonConnect.Location = new System.Drawing.Point(184, 63);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(138, 27);
             this.buttonConnect.TabIndex = 5;
@@ -153,7 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(334, 311);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.textBox_Port);
             this.Controls.Add(this.label2);

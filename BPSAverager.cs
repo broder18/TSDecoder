@@ -64,8 +64,7 @@ namespace GraphSample
                 AVG_STR sample = Samples.Dequeue();
                 TotalBytes -= sample.Bytes;
                 TotalTime -= sample.Ticks; 
-            }
-            
+            }            
         }
 
         private void SetTotal(long ticksLen, ulong lenBytes)

@@ -37,8 +37,6 @@ namespace GraphSample
                 CreateBPSStats();
                 Dll.OpenRefact(Settings.Default.IP_address, Settings.Default.Port_address, ParseUshort(), ParseIntPtr());
                 statsTimer.Enabled = true;
-                
-                
             }
             catch (Exception e)
             {
