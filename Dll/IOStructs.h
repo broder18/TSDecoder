@@ -20,16 +20,11 @@ typedef struct tagHCONTAINER_WND
 
 typedef struct tagPIDS
 {
-    WORD pidV0;
-    WORD pidV1;
-    WORD pidV2;
-    WORD pidV3;
-    WORD pidV4;
-    WORD pidT0;
-    WORD pidT1;
-    WORD pidT2;
-    WORD pidT3;
-    WORD pidT4;
+    WORD pid0;
+    WORD pid1;
+    WORD pid2;
+    WORD pid3;
+    WORD pid4;
 } PIDS;
 
 typedef struct tagGS_SettingsRefact

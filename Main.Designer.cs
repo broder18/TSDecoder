@@ -58,7 +58,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_Port = new System.Windows.Forms.TextBox();
             this.buttonConnect = new System.Windows.Forms.Button();
-            this.columnSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // StatisticsList
@@ -66,18 +65,17 @@
             this.StatisticsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnPid,
             this.columnCount,
-            this.columnBPS,
-            this.columnSize});
+            this.columnBPS});
             this.StatisticsList.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StatisticsList.FullRowSelect = true;
             this.StatisticsList.GridLines = true;
             this.StatisticsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.StatisticsList.HideSelection = false;
-            this.StatisticsList.Location = new System.Drawing.Point(0, 97);
+            this.StatisticsList.Location = new System.Drawing.Point(0, 180);
             this.StatisticsList.MultiSelect = false;
             this.StatisticsList.Name = "StatisticsList";
             this.StatisticsList.ShowGroups = false;
-            this.StatisticsList.Size = new System.Drawing.Size(485, 153);
+            this.StatisticsList.Size = new System.Drawing.Size(336, 153);
             this.StatisticsList.TabIndex = 0;
             this.StatisticsList.UseCompatibleStateImageBehavior = false;
             this.StatisticsList.View = System.Windows.Forms.View.Details;
@@ -98,6 +96,7 @@
             this.columnBPS.Text = "Bitrate, MBPS";
             this.columnBPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnBPS.Width = 150;
+
             // 
             // statsTimer
             // 
@@ -108,7 +107,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(182, 12);
+            this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 20);
             this.label1.TabIndex = 1;
@@ -116,7 +115,7 @@
             // 
             // textBox_IP
             // 
-            this.textBox_IP.Location = new System.Drawing.Point(334, 12);
+            this.textBox_IP.Location = new System.Drawing.Point(184, 13);
             this.textBox_IP.Name = "textBox_IP";
             this.textBox_IP.Size = new System.Drawing.Size(138, 20);
             this.textBox_IP.TabIndex = 2;
@@ -126,7 +125,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(182, 38);
+            this.label2.Location = new System.Drawing.Point(13, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 20);
             this.label2.TabIndex = 3;
@@ -134,7 +133,7 @@
             // 
             // textBox_Port
             // 
-            this.textBox_Port.Location = new System.Drawing.Point(334, 38);
+            this.textBox_Port.Location = new System.Drawing.Point(184, 37);
             this.textBox_Port.Name = "textBox_Port";
             this.textBox_Port.Size = new System.Drawing.Size(138, 20);
             this.textBox_Port.TabIndex = 4;
@@ -143,7 +142,7 @@
             // buttonConnect
             // 
             this.buttonConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonConnect.Location = new System.Drawing.Point(334, 64);
+            this.buttonConnect.Location = new System.Drawing.Point(184, 63);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(138, 27);
             this.buttonConnect.TabIndex = 5;
@@ -151,16 +150,11 @@
             this.buttonConnect.UseVisualStyleBackColor = true;
             this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
-            // columnSize
-            // 
-            this.columnSize.Text = "Renderer Size";
-            this.columnSize.Width = 150;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 251);
+            this.ClientSize = new System.Drawing.Size(334, 311);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.textBox_Port);
             this.Controls.Add(this.label2);
@@ -191,7 +185,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_Port;
         private System.Windows.Forms.Button buttonConnect;
-        private System.Windows.Forms.ColumnHeader columnSize;
     }
 }
 

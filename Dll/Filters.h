@@ -3,28 +3,18 @@
 extern LPCTSTR UDPLocalSourceName;
 extern LPCTSTR RTPSourceName;
 extern LPCTSTR DemuxName;
-
 extern LPCTSTR VideoDecoderName0;
 extern LPCTSTR VideoDecoderName1;
 extern LPCTSTR VideoDecoderName2;
 extern LPCTSTR VideoDecoderName3;
 extern LPCTSTR VideoDecoderName4;
-
 extern LPCTSTR FFDShowVideoDecoderName;
 extern LPCTSTR FFDShowRawVideoFilterName;
-
 extern LPCTSTR VideoRendererName0;
 extern LPCTSTR VideoRendererName1;
 extern LPCTSTR VideoRendererName2;
 extern LPCTSTR VideoRendererName3;
 extern LPCTSTR VideoRendererName4;
-
-extern LPCTSTR PMTPvtDataName0;
-extern LPCTSTR PMTPvtDataName1;
-extern LPCTSTR PMTPvtDataName2;
-extern LPCTSTR PMTPvtDataName3;
-extern LPCTSTR PMTPvtDataName4;
-
 
 //------------------------------------------------------------------------
 // FFDShow/Extra Filters guids
