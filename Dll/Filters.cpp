@@ -15,9 +15,15 @@ LPCTSTR VideoRendererName2 = "Video Renderer2";
 LPCTSTR VideoRendererName3 = "Video Renderer3";
 LPCTSTR VideoRendererName4 = "Video Renderer4";
 
-
 LPCTSTR VideoDecoderName0 = "Video Decoder0";
 LPCTSTR VideoDecoderName1 = "Video Decoder1";
 LPCTSTR VideoDecoderName2 = "Video Decoder2";
 LPCTSTR VideoDecoderName3 = "Video Decoder3";
 LPCTSTR VideoDecoderName4 = "Video Decoder4";
+
+LPCTSTR PMTPvtDataName0 = "PMTPvtData0";
+LPCTSTR PMTPvtDataName1 = "PMTPvtData1";
+LPCTSTR PMTPvtDataName2 = "PMTPvtData2";
+LPCTSTR PMTPvtDataName3 = "PMTPvtData3";
+LPCTSTR PMTPvtDataName4 = "PMTPvtData4";
+
