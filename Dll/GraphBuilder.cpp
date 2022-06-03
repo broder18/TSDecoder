@@ -2,7 +2,6 @@
 #include <mmreg.h>
 #include <Shlwapi.h>
 #include "GraphBuilder.h"
-
 #include "MediaTypes.h"
 #include "Filters.h"
 
@@ -42,11 +41,11 @@ void GRAPH_CONTROL::AddDemuxRefact(PIDS *Pids)
 
     /* demux input must (?) be connected before IMPEG2PIDMap interface is available */
     Connect(UDPLocalSourceName, DemuxName);
-    AddDemuxPin(Pids->pid0, 0);
-    AddDemuxPin(Pids->pid1, 1);
-    AddDemuxPin(Pids->pid2, 2);
-    AddDemuxPin(Pids->pid3, 3);
-    AddDemuxPin(Pids->pid4, 4);
+    AddDemuxPin(Pids->pidV0, 0);
+    AddDemuxPin(Pids->pidV1, 1);
+    AddDemuxPin(Pids->pidV2, 2);
+    AddDemuxPin(Pids->pidV3, 3);
+    AddDemuxPin(Pids->pidV4, 4);
 }
 
 void GRAPH_CONTROL::AddDemuxPin(WORD Pid, int Idx)
@@ -69,6 +68,8 @@ void GRAPH_CONTROL::AddDemuxPin(WORD Pid, int Idx)
     ULONG PidToMap = Pid;
     CHECK_HR(pIMPEG2PIDMap->MapPID(1, &PidToMap, MEDIA_ELEMENTARY_STREAM), "IMPEG2PIDMap::MapPID() failed");
 }
+
+
 
 //------------------------------------------------------------------------
 // Add video decoder
@@ -143,6 +144,15 @@ void GRAPH_CONTROL::AddRTPSource(INPUT_NETWORK *pInNet)
 
 //---------------------------------------------------------------------------
 //Add Renderer 
+void GRAPH_CONTROL::AddVideoRendererRefact(HCONTAINER_WND* hWindows)
+{
+    ConnectRenderer(VideoDecoderName0, VideoRendererName0, hWindows->hContainerWnd0);
+    ConnectRenderer(VideoDecoderName1, VideoRendererName1, hWindows->hContainerWnd1);
+    ConnectRenderer(VideoDecoderName2, VideoRendererName2, hWindows->hContainerWnd2);
+    ConnectRenderer(VideoDecoderName3, VideoRendererName3, hWindows->hContainerWnd3);
+    ConnectRenderer(VideoDecoderName4, VideoRendererName4, hWindows->hContainerWnd4);
+}
+
 void GRAPH_CONTROL::ConnectRenderer(LPCTSTR VideoDecoderName, LPCTSTR VideoRendererName, HWND hContainerWnd)
 {
     AddFilter(CLSID_VideoMixingRenderer9, VideoRendererName);
@@ -150,15 +160,6 @@ void GRAPH_CONTROL::ConnectRenderer(LPCTSTR VideoDecoderName, LPCTSTR VideoRende
     RendererMap[hContainerWnd] = QI<IVideoWindow>(VideoRendererName, IID_IVideoWindow);
     SetupRendererRefact(hContainerWnd);
     PlaceRendererRefact(hContainerWnd);
-}
-
-void GRAPH_CONTROL::AddVideoRendererRefact(HCONTAINER_WND *hWindows)
-{
-    ConnectRenderer(VideoDecoderName0, VideoRendererName0, hWindows->hContainerWnd0);
-    ConnectRenderer(VideoDecoderName1, VideoRendererName1, hWindows->hContainerWnd1);
-    ConnectRenderer(VideoDecoderName2, VideoRendererName2, hWindows->hContainerWnd2);
-    ConnectRenderer(VideoDecoderName3, VideoRendererName3, hWindows->hContainerWnd3);
-    ConnectRenderer(VideoDecoderName4, VideoRendererName4, hWindows->hContainerWnd4);
 }
 
 void GRAPH_CONTROL::SetupRendererRefact(HWND hContainerWnd) const
@@ -177,7 +178,6 @@ void GRAPH_CONTROL::SetupRendererRefact(HWND hContainerWnd) const
     CHECK_HR(RendererMap.find(hContainerWnd)->second->put_WindowStyleEx(ExStyle), "IVideoWindow::put_WindowStyleEx() failed");
 }
 
-
 void GRAPH_CONTROL::PlaceRendererRefact(HWND hContainerWnd) const
 {
     if (RendererMap.find(hContainerWnd)->first != hContainerWnd) THROW("PlaceRenderer(): invalid window handle");
@@ -189,6 +189,28 @@ void GRAPH_CONTROL::PlaceRendererRefact(HWND hContainerWnd) const
     CHECK_HR(RendererMap.find(hContainerWnd)->second->put_Top(1), "IVideoWindow::put_Top() failed");
     CHECK_HR(RendererMap.find(hContainerWnd)->second->put_Width(Rect.right - Rect.left - 2), "IVideoWindow::put_Width() failed");
     CHECK_HR(RendererMap.find(hContainerWnd)->second->put_Height(Rect.bottom - Rect.top - 2), "IVideoWindow::put_Height() failed");
+}
+//------------------------------------------------------------------------
+// PMT
+//
+
+
+void GRAPH_CONTROL::AddPMTPvtData()
+{
+    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 0);
+    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 1);
+    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 2);
+    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 3);
+    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 4);
+}
+
+void GRAPH_CONTROL::ConnectPMTPvtData(LPCTSTR PMTPvtDataName, LPCTSTR PinNameOut, LPCTSTR VideoRendererName, int PMT_ID)
+{
+    AddFilter(CLSID_PMTPvtData, PMTPvtDataName);
+    pIPMTPvtDataSettings[PMT_ID] = QI<IPMTPvtDataSettings>(PMTPvtDataName, IID_IPMTPvtDataSettings);
+    Connect(DemuxName, PMTPvtDataName, PinNameOut);
+    GETIF(IVMRMixerBitmap9, VideoRendererName);
+    CHECK_HR(pIPMTPvtDataSettings[PMT_ID]->SetRenderer(PMT_ID, pIVMRMixerBitmap9), "IPMTPvtDataSettings::SetRenderer_() failed");
 }
 
 
@@ -214,6 +236,7 @@ void GRAPH_CONTROL::BuildGraphRefact(GS_SETTINGSRefact *pSettings)
     AddDemuxRefact(&pSettings->V_Pids);
     AddVideoDecoderRefact();
     AddVideoRendererRefact(&pSettings->hWnd);
+    AddPMTPvtData();
 
     Start();
 }

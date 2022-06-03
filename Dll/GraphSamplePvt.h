@@ -14,6 +14,8 @@
 #include "Interfaces\IUDPLocalSourceCtrl.h"
 #include "Interfaces\IUDPStatistics.h"
 #include "Interfaces\RTPSource.h"
+#include "Interfaces\IUDPStatistics.h"
+#include "Interfaces\IPMTPvtDataSettings.h"
 
 #define BUFANDSIZE(x)       x, (sizeof(x) / sizeof((x)[0]))
 #define EXPORT              __declspec(dllexport) __stdcall
@@ -28,6 +30,8 @@ class GRAPH_CONTROL : public CGraph
     /* link between the actual renderer window and its parent window */
     //RENDERERMAP RendererMap;
     map<HWND, CComPtr<IVideoWindow>> RendererMap;
+    map<int, CComPtr<IPMTPvtDataSettings>> pIPMTPvtDataSettings;
+    //CComPtr<IPMTPvtDataSettings> pIPMTPvtDataSettings;
 
     void AddUDPLocalSource();
     void AddRTPSource(INPUT_NETWORK *pInNet);
@@ -39,6 +43,9 @@ class GRAPH_CONTROL : public CGraph
     void AddVideoRendererRefact(HCONTAINER_WND *hWindows);
     void ConnectRenderer(LPCTSTR VideoDecoderName, LPCTSTR VideoRendererName, HWND hContainerWnd);
     void SetupRendererRefact(HWND hContainerWnd) const;
+    void AddPMTPvtData();
+    
+    void ConnectPMTPvtData(LPCTSTR PMTPvtDataName, LPCTSTR PinNameOut, LPCTSTR VideoRendererName, int PMTRendererID);
 
 public:
     GRAPH_CONTROL() : LocalPort{ 0 } 

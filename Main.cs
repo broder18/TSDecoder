@@ -162,5 +162,7 @@ namespace GraphSample
             SaveAddress();
             Dll.SetIp(textBox_IP.Text, UInt16.Parse(textBox_Port.Text));
         }
+
+        
     }
 }

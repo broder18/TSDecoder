@@ -98,6 +98,8 @@
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 960);
             this.MinimumSize = new System.Drawing.Size(200, 200);
+            //this.TransparencyKey = BackColor;
+            
             this.Text = name;
             this.Name = name;
             Set_Params();
