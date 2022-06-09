@@ -21,9 +21,6 @@ LPCTSTR VideoDecoderName2 = "Video Decoder2";
 LPCTSTR VideoDecoderName3 = "Video Decoder3";
 LPCTSTR VideoDecoderName4 = "Video Decoder4";
 
-LPCTSTR PMTPvtDataName0 = "PMTPvtData0";
-LPCTSTR PMTPvtDataName1 = "PMTPvtData1";
-LPCTSTR PMTPvtDataName2 = "PMTPvtData2";
-LPCTSTR PMTPvtDataName3 = "PMTPvtData3";
-LPCTSTR PMTPvtDataName4 = "PMTPvtData4";
+LPCTSTR PMTPvtDataName0 = "PMTPvtData";
+
 

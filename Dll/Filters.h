@@ -19,11 +19,7 @@ extern LPCTSTR VideoRendererName2;
 extern LPCTSTR VideoRendererName3;
 extern LPCTSTR VideoRendererName4;
 
-extern LPCTSTR PMTPvtDataName0;
-extern LPCTSTR PMTPvtDataName1;
-extern LPCTSTR PMTPvtDataName2;
-extern LPCTSTR PMTPvtDataName3;
-extern LPCTSTR PMTPvtDataName4;
+extern LPCTSTR PMTPvtDataName;
 
 
 //------------------------------------------------------------------------

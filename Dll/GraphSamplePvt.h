@@ -30,22 +30,23 @@ class GRAPH_CONTROL : public CGraph
     /* link between the actual renderer window and its parent window */
     //RENDERERMAP RendererMap;
     map<HWND, CComPtr<IVideoWindow>> RendererMap;
-    map<int, CComPtr<IPMTPvtDataSettings>> pIPMTPvtDataSettings;
-    //CComPtr<IPMTPvtDataSettings> pIPMTPvtDataSettings;
+    //map<int, CComPtr<IPMTPvtDataSettings>> pIPMTPvtDataSettings;
+    CComPtr<IPMTPvtDataSettings> pIPMTPvtDataSettings;
 
     void AddUDPLocalSource();
     void AddRTPSource(INPUT_NETWORK *pInNet);
     void AddDemuxRefact(PIDS *Pids);
-    void AddDemuxPin(WORD Pid, int Idx);
+    void AddDemuxPinVideoStream(WORD Pid, int Idx);
     void AddVideoDecoderRefact();
     void AddFFDSHOWDecoder(LPCTSTR VideoDecoderName, LPCTSTR outputId);
     void AddLAVDecoder(LPCTSTR VideoDecoderName, LPCTSTR outputId);
     void AddVideoRendererRefact(HCONTAINER_WND *hWindows);
     void ConnectRenderer(LPCTSTR VideoDecoderName, LPCTSTR VideoRendererName, HWND hContainerWnd);
     void SetupRendererRefact(HWND hContainerWnd) const;
+    void AddDemuxPMTPin();
     void AddPMTPvtData();
     
-    void ConnectPMTPvtData(LPCTSTR PMTPvtDataName, LPCTSTR PinNameOut, LPCTSTR VideoRendererName, int PMTRendererID);
+    void ConnectPMTPvtData(LPCTSTR VideoRendererName, int PMTRendererID);
 
 public:
     GRAPH_CONTROL() : LocalPort{ 0 } 

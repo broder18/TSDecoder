@@ -41,25 +41,26 @@ void GRAPH_CONTROL::AddDemuxRefact(PIDS *Pids)
 
     /* demux input must (?) be connected before IMPEG2PIDMap interface is available */
     Connect(UDPLocalSourceName, DemuxName);
-    AddDemuxPin(Pids->pidV0, 0);
-    AddDemuxPin(Pids->pidV1, 1);
-    AddDemuxPin(Pids->pidV2, 2);
-    AddDemuxPin(Pids->pidV3, 3);
-    AddDemuxPin(Pids->pidV4, 4);
+    AddDemuxPinVideoStream(Pids->pidV0, 0);
+    AddDemuxPinVideoStream(Pids->pidV1, 1);
+    AddDemuxPinVideoStream(Pids->pidV2, 2);
+    AddDemuxPinVideoStream(Pids->pidV3, 3);
+    AddDemuxPinVideoStream(Pids->pidV4, 4);
+    AddDemuxPMTPin();
 }
 
-void GRAPH_CONTROL::AddDemuxPin(WORD Pid, int Idx)
+void GRAPH_CONTROL::AddDemuxPinVideoStream(WORD Pid, int Idx)
 {
-    char PinNameA[32];
+    CMediaType MtV;
+    PrepareMediaType(&MtV);
+    GETIF(IMpeg2Demultiplexer, DemuxName);
+
+    char PinNameA[32];//Âûםוסעט ג מעהוכüםûי לועמה
     wchar_t PinNameW[32];
     sprintf_s(PinNameA, "V%d", Idx);
     swprintf_s(PinNameW, L"V%d", Idx);
 
-    CMediaType MtV;
-    PrepareMediaType(&MtV);
-
-    GETIF(IMpeg2Demultiplexer, DemuxName);
-    CComPtr<IPin> pDemuxOutPinV;
+    CComPtr<IPin> pDemuxOutPinV; 
     CHECK_HR(pIMpeg2Demultiplexer->CreateOutputPin(&MtV, PinNameW, &pDemuxOutPinV), "pIMpeg2Demultiplexer->CreateOutputPin('V') failed");
 
     RefreshPins(DemuxName);
@@ -69,6 +70,26 @@ void GRAPH_CONTROL::AddDemuxPin(WORD Pid, int Idx)
     CHECK_HR(pIMPEG2PIDMap->MapPID(1, &PidToMap, MEDIA_ELEMENTARY_STREAM), "IMPEG2PIDMap::MapPID() failed");
 }
 
+void GRAPH_CONTROL::AddDemuxPMTPin()
+{
+    CMediaType MtTS;
+    PrepareMediaTypeTS(&MtTS);
+    GETIF(IMpeg2Demultiplexer, DemuxName);
+
+    char PinNameA[32];
+    wchar_t PinNameW[32];
+    sprintf_s(PinNameA, "PMT");
+    swprintf_s(PinNameW, L"PMT");
+    CComPtr<IPin> pDemuxOutPinV;
+    CHECK_HR(pIMpeg2Demultiplexer->CreateOutputPin(&MtTS, PinNameW, &pDemuxOutPinV), "pIMpeg2Demultiplexer->CreateOutputPin('PMT') failed");
+
+    RefreshPins(DemuxName);
+
+    GETOUTPINIF(IMPEG2PIDMap, DemuxName, PinNameA);
+    ULONG PMTPids[5] = { 0x44, 0x45, 0x46, 0x47, 0x48 };
+    CHECK_HR(pIMPEG2PIDMap->MapPID(ARRAYSIZE(PMTPids), PMTPids, MEDIA_TRANSPORT_PACKET), "IMPEG2PIDMap::MapPID() failed");
+
+}
 
 
 //------------------------------------------------------------------------
@@ -197,20 +218,20 @@ void GRAPH_CONTROL::PlaceRendererRefact(HWND hContainerWnd) const
 
 void GRAPH_CONTROL::AddPMTPvtData()
 {
-    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 0);
-    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 1);
-    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 2);
-    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 3);
-    ConnectPMTPvtData(PMTPvtDataName0, "PMT0", VideoRendererName0, 4);
+    AddFilter(CLSID_PMTPvtData, PMTPvtDataName);
+    pIPMTPvtDataSettings = QI<IPMTPvtDataSettings>(PMTPvtDataName, IID_IPMTPvtDataSettings);
+    Connect(DemuxName, PMTPvtDataName, "PMT");
+    ConnectPMTPvtData(VideoRendererName0, 0);
+    ConnectPMTPvtData(VideoRendererName1, 1);
+    ConnectPMTPvtData(VideoRendererName2, 2);
+    ConnectPMTPvtData(VideoRendererName3, 3);
+    ConnectPMTPvtData(VideoRendererName4, 4);
 }
 
-void GRAPH_CONTROL::ConnectPMTPvtData(LPCTSTR PMTPvtDataName, LPCTSTR PinNameOut, LPCTSTR VideoRendererName, int PMT_ID)
+void GRAPH_CONTROL::ConnectPMTPvtData(LPCTSTR VideoRendererName, int PMT_ID)
 {
-    AddFilter(CLSID_PMTPvtData, PMTPvtDataName);
-    pIPMTPvtDataSettings[PMT_ID] = QI<IPMTPvtDataSettings>(PMTPvtDataName, IID_IPMTPvtDataSettings);
-    Connect(DemuxName, PMTPvtDataName, PinNameOut);
     GETIF(IVMRMixerBitmap9, VideoRendererName);
-    CHECK_HR(pIPMTPvtDataSettings[PMT_ID]->SetRenderer(PMT_ID, pIVMRMixerBitmap9), "IPMTPvtDataSettings::SetRenderer_() failed");
+    CHECK_HR(pIPMTPvtDataSettings->SetRenderer(PMT_ID, pIVMRMixerBitmap9), "IPMTPvtDataSettings::SetRenderer() failed");
 }
 
 

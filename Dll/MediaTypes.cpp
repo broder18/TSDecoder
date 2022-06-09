@@ -44,6 +44,11 @@ void PrepareMediaTypeMPEG2(CMediaType *pMt)
     pMVIH->dwProfile = AM_MPEG2Level_Main;
 }
 
+void PrepareMediaTypeTS(CMediaType *pMt)
+{
+    SetTypes(pMt, &MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG2_TRANSPORT, &FORMAT_None);
+}
+
 //------------------------------------------------------------------------
 // Prepare media type for given stream
 //

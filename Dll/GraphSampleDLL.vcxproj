@@ -107,6 +107,7 @@
     <ClInclude Include="LibGraph\LibGraph.h" />
     <ClInclude Include="GraphSample.h" />
     <ClInclude Include="GraphSamplePvt.h" />
+    <ClInclude Include="MediaTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Filters.cpp" />
