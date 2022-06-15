@@ -217,7 +217,7 @@ void GRAPH_CONTROL::PlaceRendererRefact(HWND hContainerWnd) const
 
 
 void GRAPH_CONTROL::AddPMTPvtData()
-{
+ {
     AddFilter(CLSID_PMTPvtData, PMTPvtDataName);
     pIPMTPvtDataSettings = QI<IPMTPvtDataSettings>(PMTPvtDataName, IID_IPMTPvtDataSettings);
     Connect(DemuxName, PMTPvtDataName, "PMT");

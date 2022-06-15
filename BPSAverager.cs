@@ -111,7 +111,7 @@ namespace GraphSample
                 return "0";
             }
 
-            return ParseToMBPs().ToString("#.####");
+            return ParseToMBPs().ToString("F4");
         }
     }
 }

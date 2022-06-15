@@ -14,7 +14,6 @@
 #include "Interfaces\IUDPLocalSourceCtrl.h"
 #include "Interfaces\IUDPStatistics.h"
 #include "Interfaces\RTPSource.h"
-#include "Interfaces\IUDPStatistics.h"
 #include "Interfaces\IPMTPvtDataSettings.h"
 
 #define BUFANDSIZE(x)       x, (sizeof(x) / sizeof((x)[0]))
@@ -28,9 +27,7 @@ class GRAPH_CONTROL : public CGraph
     WORD LocalPort;
 
     /* link between the actual renderer window and its parent window */
-    //RENDERERMAP RendererMap;
     map<HWND, CComPtr<IVideoWindow>> RendererMap;
-    //map<int, CComPtr<IPMTPvtDataSettings>> pIPMTPvtDataSettings;
     CComPtr<IPMTPvtDataSettings> pIPMTPvtDataSettings;
 
     void AddUDPLocalSource();
