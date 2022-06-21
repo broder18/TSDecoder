@@ -234,6 +234,22 @@ void GRAPH_CONTROL::ConnectPMTPvtData(LPCTSTR VideoRendererName, int PMT_ID)
     CHECK_HR(pIPMTPvtDataSettings->SetRenderer(PMT_ID, pIVMRMixerBitmap9), "IPMTPvtDataSettings::SetRenderer() failed");
 }
 
+void GRAPH_CONTROL::SetAlphaPMT(int alpha)
+{
+    CHECK_HR(pIPMTPvtDataSettings->SetAlpha(alpha), "IPMTPvtDataSettings::SetAlpha() failed");
+}
+
+void GRAPH_CONTROL::SetPositionPMT(int x, int y)
+{
+    CHECK_HR(pIPMTPvtDataSettings->SetPosition(x, y), "IPMTPvtDataSettings::SetPosition() failed");
+}
+
+void GRAPH_CONTROL::SetPMTParams(TEXT_PARAMS *pPMT)
+{
+    SetAlphaPMT(pPMT->alpha);
+    SetPositionPMT(pPMT->x, pPMT->y);
+}
+
 
 //------------------------------------------------------------------------
 // Statistics
@@ -258,6 +274,8 @@ void GRAPH_CONTROL::BuildGraphRefact(GS_SETTINGSRefact *pSettings)
     AddVideoDecoderRefact();
     AddVideoRendererRefact(&pSettings->hWnd);
     AddPMTPvtData();
+    SetAlphaPMT(50);
+    SetPositionPMT(100, 300);
 
     Start();
 }

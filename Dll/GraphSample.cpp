@@ -152,3 +152,12 @@ extern "C" void gsResetStatistics()
     CATCHALL
 
 }
+
+extern "C" void gsSetPMTParams(TEXT_PARAMS *pPMT)
+{
+    try
+    {
+        pGraphControl->SetPMTParams(pPMT);
+    }
+    CATCHALL
+}

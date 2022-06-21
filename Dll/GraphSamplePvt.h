@@ -21,7 +21,7 @@
 
 #include "IOStructs.h"
 
-class GRAPH_CONTROL : public CGraph
+class GRAPH_CONTROL : private CGraph
 {
     /* local port used to connect RTPSource and UDPLocalSource */
     WORD LocalPort;
@@ -42,8 +42,9 @@ class GRAPH_CONTROL : public CGraph
     void SetupRendererRefact(HWND hContainerWnd) const;
     void AddDemuxPMTPin();
     void AddPMTPvtData();
-    
     void ConnectPMTPvtData(LPCTSTR VideoRendererName, int PMTRendererID);
+    void SetAlphaPMT(int alpha);
+    void SetPositionPMT(int x, int y);
 
 public:
     GRAPH_CONTROL() : LocalPort{ 0 } 
@@ -55,6 +56,7 @@ public:
     void PlaceRendererRefact(HWND hContainerWnd) const;
     void GetStatistics(PIDSTATISTICS *pStat);
     void ResetStatistics();
+    void SetPMTParams(TEXT_PARAMS* pPMT);
 };
 
 typedef GRAPH_CONTROL *PGRAPH_CONTROL;

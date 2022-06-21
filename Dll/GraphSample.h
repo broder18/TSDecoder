@@ -11,5 +11,6 @@ extern "C" BOOL		__stdcall gsOpenRefact(GS_SETTINGSRefact *pSettings);
 extern "C" LPCTSTR  __stdcall gsGetLastError();
 extern "C" BOOL     __stdcall gsSetInputNetwork(INPUT_NETWORK *pInNet);
 extern "C" BOOL     __stdcall gsResizeRenderer(HWND hContainerWnd);
+extern "C" void		__stdcall gsSetPMTParams(TEXT_PARAMS *pPMT);
 
 #endif

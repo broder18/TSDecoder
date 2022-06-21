@@ -3,6 +3,13 @@
 
 #include <PshPack4.h>
 
+typedef struct tagTEXT_PARAMS
+{
+    WORD alpha;
+    WORD x;
+    WORD y;
+} TEXT_PARAMS;
+
 typedef struct tagINPUT_NETWORK
 {
     DWORD MulticastIP;
