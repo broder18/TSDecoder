@@ -163,6 +163,28 @@ namespace GraphSample
             Dll.SetIp(textBox_IP.Text, UInt16.Parse(textBox_Port.Text));
         }
 
-        
+        private void alpha_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            SaveTextAlpha();
+            change_TextParams();
+        }
+
+        private void positionX_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            SaveTextPositionX();
+            change_TextParams();
+        }
+
+        private void positionY_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            SaveTextPositionY();
+            change_TextParams();
+        }
+
+        private void change_TextParams()
+        {
+            Dll.SetParams(Settings.Default.alpha_Text, Settings.Default.positionX_Text, Settings.Default.positionY_Text);
+        }
+
     }
 }

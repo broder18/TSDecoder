@@ -44,5 +44,14 @@
     <Setting Name="Port_address" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1234</Value>
     </Setting>
+    <Setting Name="alpha_Text" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="positionX_Text" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="positionY_Text" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

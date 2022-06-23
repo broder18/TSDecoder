@@ -132,7 +132,7 @@ extern "C" BOOL EXPORT gsResizeRenderer(HWND hContainerWnd)
     return FALSE;
 }
 
-extern "C" BOOL gsGetStatistics(PIDSTATISTICS *pStats)
+extern "C" BOOL EXPORT gsGetStatistics(PIDSTATISTICS *pStats) //
 {
     try
     {
@@ -143,7 +143,7 @@ extern "C" BOOL gsGetStatistics(PIDSTATISTICS *pStats)
     return FALSE;
 }
 
-extern "C" void gsResetStatistics()
+extern "C" void EXPORT gsResetStatistics() //
 {
     try
     {
@@ -153,11 +153,15 @@ extern "C" void gsResetStatistics()
 
 }
 
-extern "C" void gsSetPMTParams(TEXT_PARAMS *pPMT)
+extern "C" BOOL EXPORT gsSetPMTParams(TEXT_PARAMS *pPMT) //
 {
+    if (pPMT->size != sizeof(TEXT_PARAMS)) return FALSE;
     try
     {
         pGraphControl->SetPMTParams(pPMT);
+        return TRUE;
     }
     CATCHALL
+    return FALSE;
+    
 }

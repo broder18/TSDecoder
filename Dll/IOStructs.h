@@ -5,6 +5,7 @@
 
 typedef struct tagTEXT_PARAMS
 {
+    WORD size;
     WORD alpha;
     WORD x;
     WORD y;

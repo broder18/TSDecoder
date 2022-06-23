@@ -274,8 +274,6 @@ void GRAPH_CONTROL::BuildGraphRefact(GS_SETTINGSRefact *pSettings)
     AddVideoDecoderRefact();
     AddVideoRendererRefact(&pSettings->hWnd);
     AddPMTPvtData();
-    SetAlphaPMT(50);
-    SetPositionPMT(100, 300);
 
     Start();
 }

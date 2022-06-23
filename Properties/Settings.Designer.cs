@@ -190,5 +190,41 @@ namespace GraphSample.Properties {
                 this["Port_address"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public ushort alpha_Text {
+            get {
+                return ((ushort)(this["alpha_Text"]));
+            }
+            set {
+                this["alpha_Text"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ushort positionX_Text {
+            get {
+                return ((ushort)(this["positionX_Text"]));
+            }
+            set {
+                this["positionX_Text"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ushort positionY_Text {
+            get {
+                return ((ushort)(this["positionY_Text"]));
+            }
+            set {
+                this["positionY_Text"] = value;
+            }
+        }
     }
 }

@@ -7,6 +7,15 @@ namespace GraphSample
     public static class Dll
     {
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        private struct TextParams
+        {
+            public ushort size;
+            public ushort alpha;
+            public ushort position_x;
+            public ushort position_y;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
         private struct InputNetwork
         {
             public uint MulticastIp;
@@ -91,10 +100,14 @@ namespace GraphSample
             [DllImport("GraphSampleDLL.dll", EntryPoint = "gsResetStatistics", CallingConvention = CallingConvention.StdCall)]
             public static extern void gsResetStatistics();
 
-
             [DllImport("GraphSampleDLL.dll", EntryPoint = "gsOpenRefact", CallingConvention = CallingConvention.StdCall)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool gsOpenRefact(ref GsSettingsRefact settings);
+
+            [DllImport("GraphSampleDLL.dll", EntryPoint = "gsSetPMTParams", CallingConvention = CallingConvention.StdCall)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool gsSetPMTParams(ref TextParams text_params);
+            //
 
         }
 
@@ -137,8 +150,8 @@ namespace GraphSample
             settings.InNet.MulticastPort = port;
             Add_Pids(ref settings, pids);
             Add_HWNDS(ref settings, hWnds);
-           
             if (!NativeMethods.gsOpenRefact(ref settings)) throw new Exception("gsOpenRefact() failed: " + GetLastError());
+            SetParams(Properties.Settings.Default.alpha_Text, Properties.Settings.Default.positionX_Text, Properties.Settings.Default.positionY_Text);
         }
 
         private static void Add_Pids(ref GsSettingsRefact settings, ushort[] pids)
@@ -183,6 +196,13 @@ namespace GraphSample
         public static void ResetStatistics()
         {
             NativeMethods.gsResetStatistics();
+        }
+
+        public static void SetParams(ushort text_alpha, ushort x, ushort y)
+        {
+            var text_atr = new TextParams { alpha = text_alpha, position_x = x, position_y = y };
+            text_atr.size = (ushort)Marshal.SizeOf(text_atr);
+            if (!NativeMethods.gsSetPMTParams(ref text_atr)) throw new Exception("gsSetPMTParams() failed: " + GetLastError());
         }
     }
 }
